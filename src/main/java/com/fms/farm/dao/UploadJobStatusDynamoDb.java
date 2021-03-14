@@ -46,6 +46,9 @@ public class UploadJobStatusDynamoDb {
 		this.createDate = createDate;
 		this.endDate = endDate;
 	}
+	public UploadJobStatusDynamoDb() {
+		super();
+	}
 	
 	
 }

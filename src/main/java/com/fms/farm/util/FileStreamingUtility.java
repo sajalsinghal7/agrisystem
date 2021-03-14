@@ -28,9 +28,9 @@ public class FileStreamingUtility {
 	}
 	
 	public void createTestDataRequest(String line, String del) {
-		System.out.println(line);
+//		System.out.println(line);
 		String[] arr = line.split(del);
-		System.out.println(arr.length);
+//		System.out.println(arr.length);
 		uploadTestDataService.addDataToDynamoDB(new TestDataRequest(arr[0], arr[1], arr[2], arr[3]));
 	}
 }
