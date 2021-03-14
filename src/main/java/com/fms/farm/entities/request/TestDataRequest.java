@@ -29,6 +29,14 @@ public class TestDataRequest {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	
+	public TestDataRequest(String id, String status, String createDate, String endDate) {
+		super();
+		this.id = id;
+		this.status = status;
+		this.createDate = createDate;
+		this.endDate = endDate;
+	}
 	@Override
 	public String toString() {
 		return "TestDataRequest [id=" + id + ", status=" + status + ", createDate=" + createDate + ", endDate="

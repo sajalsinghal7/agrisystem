@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
 		"com.fms.farm.controller",
 		"com.fms.farm.entities",
+		"com.fms.farm.entities.request",
+		"com.fms.farm.entities.response",
 		"com.fms.farm.service",
 		"com.fms.farm.util",
 		"com.fms.farm.config",
