@@ -8,12 +8,14 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 public class DegreeDayDao {
 
 	String id; // region.date
-	Integer date;//2016-12-31 --> 20161231
+	String date;//2016-12-31 --> 20161231
 	String region;
-	Double tMin;
-	Double tMax;
-	Double tMedium;
-	Double precipitation;
+	String tMin;
+	String tMax;
+	String tMedium;
+	String precipitation;
+	String degreeDay;
+	
 	
 
 	@DynamoDBHashKey(attributeName = "id")
@@ -24,10 +26,10 @@ public class DegreeDayDao {
 		this.id = id;
 	}
 	@DynamoDBAttribute
-	public Integer getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Integer date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	@DynamoDBAttribute
@@ -38,35 +40,42 @@ public class DegreeDayDao {
 		this.region = region;
 	}
 	@DynamoDBAttribute
-	public Double gettMin() {
+	public String gettMin() {
 		return tMin;
 	}
-	public void settMin(Double tMin) {
+	public void settMin(String tMin) {
 		this.tMin = tMin;
 	}
 	@DynamoDBAttribute
-	public Double gettMax() {
+	public String gettMax() {
 		return tMax;
 	}
-	public void settMax(Double tMax) {
+	public void settMax(String tMax) {
 		this.tMax = tMax;
 	}
 	@DynamoDBAttribute
-	public Double gettMedium() {
+	public String gettMedium() {
 		return tMedium;
 	}
-	public void settMedium(Double tMedium) {
+	public void settMedium(String tMedium) {
 		this.tMedium = tMedium;
 	}
 	@DynamoDBAttribute
-	public Double getPrecipitation() {
+	public String getPrecipitation() {
 		return precipitation;
 	}
-	public void setPrecipitation(Double precipitation) {
+	public void setPrecipitation(String precipitation) {
 		this.precipitation = precipitation;
 	}
-	public DegreeDayDao(String id, Integer date, String region, Double tMin, Double tMax, Double tMedium,
-			Double precipitation) {
+	@DynamoDBAttribute
+	public String getDegreeDay() {
+		return degreeDay;
+	}
+	public void setDegreeDay(String degreeDay) {
+		this.degreeDay = degreeDay;
+	}
+	public DegreeDayDao(String id, String date, String region, String tMin, String tMax, String tMedium,
+			String precipitation, String degreeDay) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -75,6 +84,7 @@ public class DegreeDayDao {
 		this.tMax = tMax;
 		this.tMedium = tMedium;
 		this.precipitation = precipitation;
+		this.degreeDay = degreeDay;
 	}
 	
 	
