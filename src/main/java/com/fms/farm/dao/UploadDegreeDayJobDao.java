@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fms.farm.util.UploadJobStatus;
 
@@ -12,7 +13,7 @@ public class UploadDegreeDayJobDao {
 	String id;
 	String createDate;
 	String updateDate;
-	String status;
+	String jobStatus;
 	String request;
 	String path;
 	Character delimitter;
@@ -39,12 +40,13 @@ public class UploadDegreeDayJobDao {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	@DynamoDBAttribute
-	public String getStatus() {
-		return status;
+//    @DynamoDBIndexHashKey(globalSecondaryIndexName = "GSI")
+    @DynamoDBAttribute
+	public String getJobStatus() {
+		return jobStatus;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setJobStatus(String status) {
+		this.jobStatus = status;
 	}
 	@DynamoDBAttribute
 	public String getRequest() {
@@ -80,7 +82,7 @@ public class UploadDegreeDayJobDao {
 		this.id = id;
 		this.createDate = createDate;
 		this.updateDate = updateDate;
-		this.status = status;
+		this.jobStatus = status;
 		this.request = request;
 		this.path = path;
 		this.delimitter = delimitter;
