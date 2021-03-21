@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class FarmerExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(Exception.class)
 	 public ResponseEntity<Object> handleAnyException(Exception e, WebRequest request) {
+		e.printStackTrace();
 		 Map<String, Object> body = new HashMap<String, Object>();
 		 body.put("timestamp", LocalDate.now());
 		 body.put("message", "Sorry Digital Farmer Something went wrong");

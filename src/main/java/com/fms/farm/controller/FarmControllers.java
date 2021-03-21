@@ -3,6 +3,8 @@ package com.fms.farm.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,8 +14,11 @@ import org.synchronoss.cloud.nio.stream.storage.FileStreamStorage;
 import com.fms.farm.dao.UploadJobStatusDynamoDb;
 import com.fms.farm.entities.Hello;
 import com.fms.farm.entities.request.TestDataRequest;
+import com.fms.farm.entities.request.UploadDegreeDay;
 import com.fms.farm.entities.request.UploadTestFileRequest;
+import com.fms.farm.entities.response.DegreeDayUploadStatus;
 import com.fms.farm.service.FetchJobStatusDataFromDB;
+import com.fms.farm.service.UploadDegreeDayHandler;
 import com.fms.farm.service.UploadTestDataService;
 import com.fms.farm.util.FileStreamingUtility;
 
@@ -24,6 +29,9 @@ public class FarmControllers {
 	public UploadTestDataService uploadTestDataService;
 	@Autowired
 	public FileStreamingUtility fileStreamingUtility;
+	
+	@Autowired
+	public UploadDegreeDayHandler uploadDegreeDayHandler;
 	
 	@Autowired
 	public FetchJobStatusDataFromDB fetchJobStatusDataFromDB;
@@ -56,6 +64,13 @@ public class FarmControllers {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@RequestMapping(value = ControllerLinks.UPLOAD_DEGREE_DAY, method = RequestMethod.POST)
+	public EntityModel<DegreeDayUploadStatus> uploadDegreeDayFile(@RequestBody UploadDegreeDay degreeDay) {
+		EntityModel<DegreeDayUploadStatus> response = EntityModel.of(uploadDegreeDayHandler.createUploadRequest(degreeDay));
+		response.add(Link.of("linktobegenerated", "self"));
+		return response;
 	}
 	
 }
