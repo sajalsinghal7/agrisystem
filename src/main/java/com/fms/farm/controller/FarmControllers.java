@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.synchronoss.cloud.nio.stream.storage.FileStreamStorage;
 
 import com.fms.farm.dao.UploadJobStatusDynamoDb;
+import com.fms.farm.entities.DegreeDay;
 import com.fms.farm.entities.Hello;
+import com.fms.farm.entities.request.DegreeDayRequest;
 import com.fms.farm.entities.request.TestDataRequest;
 import com.fms.farm.entities.request.UploadDegreeDay;
 import com.fms.farm.entities.request.UploadTestFileRequest;
@@ -71,6 +73,11 @@ public class FarmControllers {
 		EntityModel<DegreeDayUploadStatus> response = EntityModel.of(uploadDegreeDayHandler.createUploadRequest(degreeDay));
 		response.add(Link.of("linktobegenerated", "self"));
 		return response;
+	}
+	
+	@RequestMapping(value = ControllerLinks.GET_ALL_DEGREE_DAY_FOR_REGIION, method = RequestMethod.POST)
+	public List<DegreeDay> getAllDegreeDay(@RequestBody DegreeDayRequest dayRequest) {
+		return uploadDegreeDayHandler.getAllDegreeDayForRegion(dayRequest.getRegion());
 	}
 	
 }

@@ -18,6 +18,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
@@ -69,7 +70,7 @@ public class UploadDegreeDayHandler {
 		}
 		// update from inprogress to success
 		if(dao != null) {
-			streamReadingFsSyncWritingDB(dao.getPath(), dao.getDelimitter().toString(), dao.getRegion());
+			streamReadingFsSyncWritingDB(dao.getPath(), dao.getDelimitter().toString(), dao.getRegionOfAnalysis());
 		}
 		
 	}
@@ -83,7 +84,7 @@ public class UploadDegreeDayHandler {
 		for (Map<String, AttributeValue> tmp : result.getItems()){
 		    if(tmp.get("jobStatus").getS().toString().equals("SUBMITTED")) {
 		    	System.out.println("Request to process" + tmp.toString());
-		    	listOfSubmittedJobs.add(new UploadDegreeDayJobDao(tmp.get("id").getS().toString(),tmp.get("createDate").getS().toString(),tmp.get("updateDate").getS().toString(),tmp.get("jobStatus").getS().toString(),tmp.get("request").getS().toString(),tmp.get("path").getS().toString(),tmp.get("delimitter").getS().toString().charAt(0),tmp.get("region").getS().toString()));
+		    	listOfSubmittedJobs.add(new UploadDegreeDayJobDao(tmp.get("id").getS().toString(),tmp.get("createDate").getS().toString(),tmp.get("updateDate").getS().toString(),tmp.get("jobStatus").getS().toString(),tmp.get("request").getS().toString(),tmp.get("path").getS().toString(),tmp.get("delimitter").getS().toString().charAt(0),tmp.get("regionOfAnalysis").getS().toString()));
 		    }
 		}
 		if(listOfSubmittedJobs.size() > 0) return listOfSubmittedJobs.get(0);
@@ -136,5 +137,37 @@ public class UploadDegreeDayHandler {
 		}
 		return result.toString();
 	}
+	
+	public List<DegreeDay> getAllDegreeDayForRegion(String regionOfAnalysis) {
+//		DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
+//		Table table = dynamoDB.getTable("degree_day");
+//		Index index = table.getIndex("regionOfAnalysis");
+//		QuerySpec querySpec = new QuerySpec()
+//				.withKeyConditionExpression("regionOfAnalysis = :v_regionOfAnalysis")
+//				.withValueMap(new ValueMap().withString(":v_regionOfAnalysis", regionOfAnalysis));
+//		ItemCollection<QueryOutcome> items = table.query(querySpec);
+//
+//		Iterator<Item> iterator = items.iterator();
+//		Item item = null;
+//		while (iterator.hasNext()) {
+//		    item = iterator.next();
+//		    System.out.println(item.toJSONPretty());
+//		}
+		Map<String, AttributeValue> expressionAttributeValues =
+			    new HashMap<String, AttributeValue>();
+			expressionAttributeValues.put(":v_regionOfAnalysis", new AttributeValue().withS(regionOfAnalysis));
+		ScanRequest scanRequest = new ScanRequest()
+				.withTableName("degree_day")
+				.withFilterExpression("regionOfAnalysis = :v_regionOfAnalysis")
+				.withExpressionAttributeValues(expressionAttributeValues);
+		ScanResult result = amazonDynamoDB.scan(scanRequest);
+		List<DegreeDay> resultList = new ArrayList<DegreeDay>();
+		for (Map<String, AttributeValue> item : result.getItems()) {
+		    System.out.println(item.toString());
+		    resultList.add(new DegreeDay(item.get("id").getS(), Integer.valueOf(item.get("date").getS()), item.get("regionOfAnalysis").getS(), Double.valueOf(item.get("tMin").getS()), Double.valueOf(item.get("tMax").getS()), Double.valueOf(item.get("tMedium").getS()), Double.valueOf(item.get("precipitation").getS()), Double.valueOf(item.get("degreeDay").getS())));
+		}
+		return resultList;
+	}
+
 	
 }

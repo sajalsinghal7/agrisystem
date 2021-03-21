@@ -12,6 +12,7 @@ public class DegreeDay extends RepresentationModel<EntityModel<DegreeDay>> {
 	Double tMax;
 	Double tMedium;
 	Double precipitation;
+	Double degreeDay;
 	public String getId() {
 		return id;
 	}
@@ -57,8 +58,17 @@ public class DegreeDay extends RepresentationModel<EntityModel<DegreeDay>> {
 
 	
 
+
+	public Double getDegreeDay() {
+		return degreeDay;
+	}
+	public void setDegreeDay(Double degreeDay) {
+		this.degreeDay = degreeDay;
+	}
+	
+	
 	public DegreeDay(String id, Integer date, String region, Double tMin, Double tMax, Double tMedium,
-			Double precipitation) {
+			Double precipitation, Double degreeDay) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -67,6 +77,7 @@ public class DegreeDay extends RepresentationModel<EntityModel<DegreeDay>> {
 		this.tMax = tMax;
 		this.tMedium = tMedium;
 		this.precipitation = precipitation;
+		this.degreeDay = degreeDay;
 	}
 	public String generateId(String region, Integer date) {
 		return region + "." + date;

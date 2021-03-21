@@ -17,7 +17,7 @@ public class UploadDegreeDayJobDao {
 	String request;
 	String path;
 	Character delimitter;
-	String region;
+	String regionOfAnalysis;
 
 	@DynamoDBHashKey(attributeName = "id")
 	public String getId() {
@@ -70,14 +70,14 @@ public class UploadDegreeDayJobDao {
 		this.delimitter = delimitter;
 	}
 	@DynamoDBAttribute
-	public String getRegion() {
-		return region;
+	public String getRegionOfAnalysis() {
+		return regionOfAnalysis;
 	}
-	public void setRegion(String region) {
-		this.region = region;
+	public void setRegionOfAnalysis(String regionOfAnalysis) {
+		this.regionOfAnalysis = regionOfAnalysis;
 	}
 	public UploadDegreeDayJobDao(String id, String createDate, String updateDate, String status, String request,
-			String path, Character delimitter, String region) {
+			String path, Character delimitter, String regionOfAnalysis) {
 		super();
 		this.id = id;
 		this.createDate = createDate;
@@ -86,7 +86,7 @@ public class UploadDegreeDayJobDao {
 		this.request = request;
 		this.path = path;
 		this.delimitter = delimitter;
-		this.region = region;
+		this.regionOfAnalysis = regionOfAnalysis;
 	}
 	public UploadDegreeDayJobDao() {
 		super();

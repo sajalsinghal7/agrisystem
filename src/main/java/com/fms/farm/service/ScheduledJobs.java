@@ -9,7 +9,7 @@ public class ScheduledJobs {
 
 	@Autowired
 	public UploadDegreeDayHandler uploadDegreeDayHandler;
-	@Scheduled(fixedDelay = 300000)
+	@Scheduled(fixedDelay = 30000)
 	public void pollDegreeDayUploadJobAndProcess() {
 		System.out.println("Statrt Degree Day Poller");
 		uploadDegreeDayHandler.updateFirstSubmitted();
