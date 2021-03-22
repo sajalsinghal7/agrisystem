@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,7 +75,7 @@ public class FarmControllers {
 		response.add(Link.of("linktobegenerated", "self"));
 		return response;
 	}
-	
+	@CrossOrigin(origins = { "http://localhost:3000"})
 	@RequestMapping(value = ControllerLinks.GET_ALL_DEGREE_DAY_FOR_REGIION, method = RequestMethod.POST)
 	public List<DegreeDay> getAllDegreeDay(@RequestBody DegreeDayRequest dayRequest) {
 		return uploadDegreeDayHandler.getAllDegreeDayForRegion(dayRequest.getRegion());
