@@ -120,7 +120,7 @@ public class UploadDegreeDayHandler {
 	
 	public void parseObjectAndUploadToDB(String line, String del, String region) {
 		String[] arr = line.split(del);
-		DegreeDayDao dao = new DegreeDayDao(region + arr[0], arr[0].toString(), region, arr[1].toString(), arr[2].toString(), arr[3].toString(), arr[4].toString(), calculateDegreeDay(Double.valueOf(arr[1]), Double.valueOf(arr[2])));
+		DegreeDayDao dao = new DegreeDayDao(region + arr[0], arr[0].toString(), region, arr[2].toString(), arr[1].toString(), arr[3].toString(), arr[4].toString(), calculateDegreeDay(Double.valueOf(arr[1]), Double.valueOf(arr[2])));
 		dbMapper.save(dao);
 	}
 	
