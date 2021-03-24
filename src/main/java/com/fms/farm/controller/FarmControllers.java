@@ -68,7 +68,8 @@ public class FarmControllers {
 		}
 		return list;
 	}
-	
+
+	@CrossOrigin(origins = { "http://localhost:3000"})
 	@RequestMapping(value = ControllerLinks.UPLOAD_DEGREE_DAY, method = RequestMethod.POST)
 	public EntityModel<DegreeDayUploadStatus> uploadDegreeDayFile(@RequestBody UploadDegreeDay degreeDay) {
 		EntityModel<DegreeDayUploadStatus> response = EntityModel.of(uploadDegreeDayHandler.createUploadRequest(degreeDay));
