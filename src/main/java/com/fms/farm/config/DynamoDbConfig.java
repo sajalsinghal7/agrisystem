@@ -22,6 +22,9 @@ public class DynamoDbConfig {
 
     @Value("${amazon.end-point.url}")
     private String awsDynamoDBEndPoint;
+    
+    @Value("${amazon.region}")
+    private String region;
 
     @Bean
     public AWSCredentials amazonAWSCredentials() {
@@ -35,7 +38,7 @@ public class DynamoDbConfig {
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(awsDynamoDBEndPoint, ""))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(awsDynamoDBEndPoint, region))
                 .withCredentials(amazonAWSCredentialsProvider())
                 .build();
     }
