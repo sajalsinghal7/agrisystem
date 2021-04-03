@@ -152,9 +152,14 @@ public class UploadDegreeDayHandler {
 		ScanResult result = amazonDynamoDB.scan(scanRequest);
 		List<DegreeDay> resultList = new ArrayList<DegreeDay>();
 		for (Map<String, AttributeValue> item : result.getItems()) {
-		    System.out.println(item.toString());
-		    resultList.add(new DegreeDay(item.get("id").getS(), Integer.valueOf(item.get("date").getS()), item.get("regionOfAnalysis").getS(), Double.valueOf(item.get("tMin").getS()), Double.valueOf(item.get("tMax").getS()), Double.valueOf(item.get("tMedium").getS()), Double.valueOf(item.get("precipitation").getS()), Double.valueOf(item.get("degreeDay").getS())));
-		}
+//		    System.out.println(item.toString());
+			try {
+				   resultList.add(new DegreeDay(item.get("id").getS(), Integer.valueOf(item.get("date").getS().trim()), item.get("regionOfAnalysis").getS(), Double.valueOf(item.get("tMin").getS()), Double.valueOf(item.get("tMax").getS()), Double.valueOf(item.get("tMedium").getS()), Double.valueOf(item.get("precipitation").getS()), Double.valueOf(item.get("degreeDay").getS())));
+					
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		 }
 		return resultList;
 	}
 
