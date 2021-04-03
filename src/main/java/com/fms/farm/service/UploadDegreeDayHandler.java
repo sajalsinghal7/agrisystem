@@ -83,7 +83,7 @@ public class UploadDegreeDayHandler {
 		ScanResult result = amazonDynamoDB.scan(scanRequest);
 		for (Map<String, AttributeValue> tmp : result.getItems()){
 		    if(tmp.get("jobStatus").getS().toString().equals("SUBMITTED")) {
-		    	System.out.println("Request to process" + tmp.toString());
+		    	System.out.println("Request to process => " + tmp.toString());
 		    	listOfSubmittedJobs.add(new UploadDegreeDayJobDao(tmp.get("id").getS().toString(),tmp.get("createDate").getS().toString(),tmp.get("updateDate").getS().toString(),tmp.get("jobStatus").getS().toString(),tmp.get("request").getS().toString(),tmp.get("path").getS().toString(),tmp.get("delimitter").getS().toString().charAt(0),tmp.get("regionOfAnalysis").getS().toString()));
 		    }
 		}
@@ -110,12 +110,15 @@ public class UploadDegreeDayHandler {
 		String del = delimitter;
 		Path path = Paths.get(pathRequest);
 		try {
-			Stream<String> line  = Files.lines(path).parallel();
+//			Note - Disabling parallel processing as Dynamodb cannot handel the load
+//			Stream<String> line  = Files.lines(path).parallel();
+
+			Stream<String> line  = Files.lines(path);
 			line.forEach(l -> parseObjectAndUploadToDB(l, del, region));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.print("Upload Completed for filePath " + pathRequest);
+		System.out.println("Upload Completed for filePath " + pathRequest);
 	}
 	
 	public void parseObjectAndUploadToDB(String line, String del, String region) {
@@ -139,20 +142,6 @@ public class UploadDegreeDayHandler {
 	}
 	
 	public List<DegreeDay> getAllDegreeDayForRegion(String regionOfAnalysis) {
-//		DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
-//		Table table = dynamoDB.getTable("degree_day");
-//		Index index = table.getIndex("regionOfAnalysis");
-//		QuerySpec querySpec = new QuerySpec()
-//				.withKeyConditionExpression("regionOfAnalysis = :v_regionOfAnalysis")
-//				.withValueMap(new ValueMap().withString(":v_regionOfAnalysis", regionOfAnalysis));
-//		ItemCollection<QueryOutcome> items = table.query(querySpec);
-//
-//		Iterator<Item> iterator = items.iterator();
-//		Item item = null;
-//		while (iterator.hasNext()) {
-//		    item = iterator.next();
-//		    System.out.println(item.toJSONPretty());
-//		}
 		Map<String, AttributeValue> expressionAttributeValues =
 			    new HashMap<String, AttributeValue>();
 			expressionAttributeValues.put(":v_regionOfAnalysis", new AttributeValue().withS(regionOfAnalysis));
