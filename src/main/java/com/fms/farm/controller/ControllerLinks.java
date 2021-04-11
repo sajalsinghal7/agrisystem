@@ -16,4 +16,6 @@ public class ControllerLinks {
 	public final static String GET_ALL_DEGREE_DAY_FOR_REGIION = DEGREE_DAY + GET;
 	public final static String UPLOAD_STRESS_MODEL = "/stressModel/upload";
 	public final static String GET_ALL_STRESS_MODEL = "/stressModel/get/{region}";
+	public final static String UPLOAD_EGG_MODEL = "/eggModel/upload";
+	public final static String GET_ALL_EGG_MODEL = "/eggModel/get/{region}";
 }

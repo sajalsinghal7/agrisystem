@@ -15,6 +15,7 @@ import org.synchronoss.cloud.nio.stream.storage.FileStreamStorage;
 
 import com.fms.farm.dao.UploadJobStatusDynamoDb;
 import com.fms.farm.entities.DegreeDay;
+import com.fms.farm.entities.Egg;
 import com.fms.farm.entities.Hello;
 import com.fms.farm.entities.Stress;
 import com.fms.farm.entities.request.DegreeDayRequest;
@@ -24,6 +25,7 @@ import com.fms.farm.entities.request.TestDataRequest;
 import com.fms.farm.entities.request.UploadDegreeDay;
 import com.fms.farm.entities.request.UploadTestFileRequest;
 import com.fms.farm.entities.response.DegreeDayUploadStatus;
+import com.fms.farm.service.EggModelHandler;
 import com.fms.farm.service.FetchJobStatusDataFromDB;
 import com.fms.farm.service.StressModelHandler;
 import com.fms.farm.service.UploadDegreeDayHandler;
@@ -46,6 +48,9 @@ public class FarmControllers {
 	
 	@Autowired
 	public StressModelHandler stressModelHandler; 
+	
+	@Autowired
+	public EggModelHandler eggModelHandler;
 
 	@RequestMapping(value = ControllerLinks.HELLO_FARM, method = RequestMethod.GET)
 	public Hello helloDigitalFarmer() {
@@ -104,5 +109,19 @@ public class FarmControllers {
 	public List<Stress> getAllStressModel(@PathVariable("region") String region) {
 		return stressModelHandler.getAllDegreeDayForRegion(region.toUpperCase());
 	}
-	
+
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(value = ControllerLinks.UPLOAD_EGG_MODEL, method = RequestMethod.POST)
+	public String uploadEggModel(@RequestBody FileUploadRequest request) {
+		eggModelHandler.uploadModel(request);
+		return "Your Egg Model for the Region " + request.getRegion() + "Has Been uploaded successfully";
+	}
+
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(value = ControllerLinks.GET_ALL_EGG_MODEL, method = RequestMethod.GET)
+	public List<Egg> getAllEggModel(@PathVariable("region") String region) {
+		return eggModelHandler.getAllDegreeDayForRegion(region.toUpperCase());
+	}
 }
