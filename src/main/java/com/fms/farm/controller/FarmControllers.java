@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,12 +16,16 @@ import org.synchronoss.cloud.nio.stream.storage.FileStreamStorage;
 import com.fms.farm.dao.UploadJobStatusDynamoDb;
 import com.fms.farm.entities.DegreeDay;
 import com.fms.farm.entities.Hello;
+import com.fms.farm.entities.Stress;
 import com.fms.farm.entities.request.DegreeDayRequest;
+import com.fms.farm.entities.request.FileUploadRequest;
+import com.fms.farm.entities.request.RegionalDataRequest;
 import com.fms.farm.entities.request.TestDataRequest;
 import com.fms.farm.entities.request.UploadDegreeDay;
 import com.fms.farm.entities.request.UploadTestFileRequest;
 import com.fms.farm.entities.response.DegreeDayUploadStatus;
 import com.fms.farm.service.FetchJobStatusDataFromDB;
+import com.fms.farm.service.StressModelHandler;
 import com.fms.farm.service.UploadDegreeDayHandler;
 import com.fms.farm.service.UploadTestDataService;
 import com.fms.farm.util.FileStreamingUtility;
@@ -38,6 +43,9 @@ public class FarmControllers {
 	
 	@Autowired
 	public FetchJobStatusDataFromDB fetchJobStatusDataFromDB;
+	
+	@Autowired
+	public StressModelHandler stressModelHandler; 
 
 	@RequestMapping(value = ControllerLinks.HELLO_FARM, method = RequestMethod.GET)
 	public Hello helloDigitalFarmer() {
@@ -80,6 +88,21 @@ public class FarmControllers {
 	@RequestMapping(value = ControllerLinks.GET_ALL_DEGREE_DAY_FOR_REGIION, method = RequestMethod.POST)
 	public List<DegreeDay> getAllDegreeDay(@RequestBody DegreeDayRequest dayRequest) {
 		return uploadDegreeDayHandler.getAllDegreeDayForRegion(dayRequest.getRegion());
+	}
+	
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(value = ControllerLinks.UPLOAD_STRESS_MODEL, method = RequestMethod.POST)
+	public String uploadStressModel(@RequestBody FileUploadRequest request) {
+		stressModelHandler.uploadModel(request);
+		return "Your Stress Model for the Region " + request.getRegion() + "Has Been uploaded successfully";
+	}
+
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(value = ControllerLinks.GET_ALL_STRESS_MODEL, method = RequestMethod.GET)
+	public List<Stress> getAllStressModel(@PathVariable("region") String region) {
+		return stressModelHandler.getAllDegreeDayForRegion(region.toUpperCase());
 	}
 	
 }
